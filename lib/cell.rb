@@ -6,5 +6,9 @@ module Conways
       @y_pos = y_pos
       @living = false
     end
+
+    def make_living
+      @living = true
+    end
   end
 end
