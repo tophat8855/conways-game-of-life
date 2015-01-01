@@ -82,7 +82,6 @@ describe Conways::Board do
     it "returs the positios of a cell's neighbors on a corner" do
       board = Conways::Board.new
       neighbors = board.cell_neighbors(79, 23)
-
       expect(neighbors.count).to eq(3)
     end
   end
@@ -90,11 +89,11 @@ describe Conways::Board do
   describe 'living_neighbors' do
     it 'counts the number of living neighbors of a cell' do
       board = Conways::Board.new
-      seeded_board = board.seed #seeded random with "33" for testing.
+      board.seed #seeded random with "33" for testing.
       neighbors = board.cell_neighbors(5,5)
       living_neighbors = board.living(neighbors)
 
-      expect(living_neighbors.count).to eq(3)
+      expect(living_neighbors).to eq(3)
     end
   end
 end

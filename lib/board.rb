@@ -8,7 +8,7 @@ module Conways
       @board = []
       columns.each do |column|
         rows.each do |row|
-          @board << Cell.new(column, row, false, false)
+          @board << Cell.new(column, row)
         end
       end
 
@@ -24,11 +24,12 @@ module Conways
     end
 
     def seed
-      srand 33 #for testig purposes
+      srand 33 #for testing purposes
       indices_to_seed = 192.times.map{ rand(1920) }
 
       indices_to_seed.each do |index|
         @board[index].make_living
+        @board[index].toggle_life
       end
 
       @board
@@ -46,9 +47,9 @@ module Conways
         neighbors.delete(cell_at(79, y+1))
       end
       if x == 79
-        neighbors.delete(cell_at(0, y-1))
-        neighbors.delete(cell_at(0, y))
-        neighbors.delete(cell_at(0, y+1))
+        neighbors.delete(cell_at(80, y-1))
+        neighbors.delete(cell_at(80, y))
+        neighbors.delete(cell_at(80, y+1))
       end
       if y == 0
         neighbors.delete(cell_at(x-1, 79))
@@ -56,9 +57,9 @@ module Conways
         neighbors.delete(cell_at(x+1, 79))
       end
       if y == 23
-        neighbors.delete(cell_at(x-1, 0))
-        neighbors.delete(cell_at(x, 0))
-        neighbors.delete(cell_at(x+1, 0))
+        neighbors.delete(cell_at(x-1, 24))
+        neighbors.delete(cell_at(x, 24))
+        neighbors.delete(cell_at(x+1, 24))
       end
       neighbors
     end
@@ -70,7 +71,7 @@ module Conways
           living_array << cell
         end
       end
-      living_array
+      living_array.count
     end
 
     def print_board
@@ -92,5 +93,24 @@ module Conways
         i += 1
       end
     end
+
+    def ready_board
+      @board.each do |cell|
+        cells_neighbors = self.cell_neighbors(cell.x_pos, cell.y_pos)
+        living_neighbor_number = self.living(cells_neighbors)
+        if cell.living == true && living_neighbor_number < 2
+          cell.kill_cell
+        elsif cell.living == true && living_neighbor_number > 3
+          cell.kill_cell
+        elsif cell.living == false && living_neighbor_number == 3
+          cell.make_living
+        end
+      end
+
+      @board.each do |cell|
+        cell.toggle_life
+      end
+    end
+
   end
 end
