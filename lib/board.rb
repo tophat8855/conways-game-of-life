@@ -24,7 +24,6 @@ module Conways
     end
 
     def seed
-      srand 33 #for testing purposes
       indices_to_seed = 192.times.map{ rand(1920) }
 
       indices_to_seed.each do |index|

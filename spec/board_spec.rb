@@ -21,6 +21,7 @@ describe Conways::Board do
     it 'seeds the board with living cells' do
       board = Conways::Board.new
       original_board = board
+      srand 33
       seeded_board = board.seed
 
       expect(original_board).to_not eq(seeded_board)
@@ -89,7 +90,8 @@ describe Conways::Board do
   describe 'living_neighbors' do
     it 'counts the number of living neighbors of a cell' do
       board = Conways::Board.new
-      board.seed #seeded random with "33" for testing.
+      srand 33 #seeded random with "33" for testing.
+      board.seed
       neighbors = board.cell_neighbors(5,5)
       living_neighbors = board.living(neighbors)
 
