@@ -1,7 +1,12 @@
 require "./lib/board"
 require "./lib/cell"
 
-board = Conways::Board.new
+puts "Length of Board?"
+length = gets.chomp
+puts "Width of Board?"
+width = gets.chomp
+
+board = Conways::Board.new(length, width)
 board.seed
 
 while true

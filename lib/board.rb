@@ -1,9 +1,11 @@
 module Conways
   class Board
-    attr_reader :board, :living
-    def initialize
-      @columns = Array(0..79) #could make this something user chooses
-      @rows = Array(0..23)
+    attr_reader :board, :living, :length, :width
+    def initialize(length, width)
+      @length = length.to_i
+      @width = width.to_i
+      @columns = Array(0..(@width - 1))
+      @rows = Array(0..(@length - 1))
 
       @board = []
       @columns.each do |column|
@@ -18,7 +20,8 @@ module Conways
     end
 
     def seed
-      indices_to_seed = 192.times.map{ rand(1920) } #if user can choose board size, this needs seed 1/10 of cells
+      tenth_of_board = @board.size/10
+      indices_to_seed = tenth_of_board.times.map{ rand(@board.size) }
       indices_to_seed.each do |index|
         @board[index].make_living
         @board[index].toggle_life
@@ -28,7 +31,7 @@ module Conways
     end
 
     def cell_at(x,y)
-      @board[x * 24 + y] #if user can choose board size, the 24 needs to be # of rows
+      @board[x * @length + y]
     end
 
     def cell_neighbors(x,y)
@@ -38,20 +41,20 @@ module Conways
         neighbors.delete(cell_at(-1, y))
         neighbors.delete(cell_at(-1, y+1))
       end
-      if x == 79
-        neighbors.delete(cell_at(80, y-1)) #maxes need to reflect # of columns
-        neighbors.delete(cell_at(80, y))
-        neighbors.delete(cell_at(80, y+1))
+      if x == (@width - 1)
+        neighbors.delete(cell_at(@width, y-1))
+        neighbors.delete(cell_at(@width, y))
+        neighbors.delete(cell_at(@width, y+1))
       end
       if y == 0
         neighbors.delete(cell_at(x-1, -1))
         neighbors.delete(cell_at(x, -1))
         neighbors.delete(cell_at(x+1, -1))
       end
-      if y == 23
-        neighbors.delete(cell_at(x-1, 24)) #maxes need to reflect # of rows
-        neighbors.delete(cell_at(x, 24))
-        neighbors.delete(cell_at(x+1, 24))
+      if y == (@length - 1)
+        neighbors.delete(cell_at(x-1, @length))
+        neighbors.delete(cell_at(x, @length))
+        neighbors.delete(cell_at(x+1, @length))
       end
       neighbors
     end
