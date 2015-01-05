@@ -10,8 +10,8 @@ describe Conways::Board do
     end
 
     it "is made of Cell objects" do
-      board = Conways::Board.new
-      cell_classes = board.cells.map(&:class).uniq
+      game_board = Conways::Board.new
+      cell_classes = game_board.board.map(&:class).uniq
 
       expect(cell_classes.first).to eq(Conways::Cell)
     end
@@ -66,7 +66,6 @@ describe Conways::Board do
     it "returns the positions of a cell's neighbors on an edge" do
       board = Conways::Board.new
       neighbors = board.cell_neighbors(0, 5)
-
       expect(neighbors.count).to eq(5)
       expect(neighbors[0].x_pos).to eq(0)
       expect(neighbors[0].y_pos).to eq(4)
@@ -80,9 +79,32 @@ describe Conways::Board do
       expect(neighbors[4].y_pos).to eq(6)
     end
 
-    it "returs the positios of a cell's neighbors on a corner" do
+    it "returns the positions of a cell's neighbors on an edge" do
+      board = Conways::Board.new
+      neighbors = board.cell_neighbors(12, 0)
+
+      expect(neighbors.count).to eq(5)
+      expect(neighbors[0].x_pos).to eq(11)
+      expect(neighbors[0].y_pos).to eq(0)
+      expect(neighbors[1].x_pos).to eq(13)
+      expect(neighbors[1].y_pos).to eq(0)
+      expect(neighbors[2].x_pos).to eq(11)
+      expect(neighbors[2].y_pos).to eq(1)
+      expect(neighbors[3].x_pos).to eq(12)
+      expect(neighbors[3].y_pos).to eq(1)
+      expect(neighbors[4].x_pos).to eq(13)
+      expect(neighbors[4].y_pos).to eq(1)
+    end
+
+    it "returs the positions of a cell's neighbors on a corner" do
       board = Conways::Board.new
       neighbors = board.cell_neighbors(79, 23)
+      expect(neighbors.count).to eq(3)
+    end
+
+    it "returs the positions of a cell's neighbors on a corner" do
+      board = Conways::Board.new
+      neighbors = board.cell_neighbors(0, 23)
       expect(neighbors.count).to eq(3)
     end
   end
